@@ -1,12 +1,13 @@
 services:
   app:
     build:
-      dockerfile: ./common/docker/Dockerfile
-      context: .
+      dockerfile: Dockerfile
+      context: ./common/docker/
     working_dir: /code
     environment:
       - AWS_REGION=eu-central-1
       - AWS_PROFILE
+      - PGP_KEY_BASE64
     volumes:
       - $HOME/.aws/:/root/.aws/
       - .:/code
