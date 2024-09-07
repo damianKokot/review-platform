@@ -1,6 +1,6 @@
-export PROJECT_NAME=common/remote-state
+export PROJECT_NAME=v1/infrastructure
 
-export TF_ARGS="-backend-config=backend.tfvars"
+export TF_ARGS="-backend-config=backend.tfvars.json"
 
 build:
 	docker compose build
@@ -13,19 +13,19 @@ decrypt:
 	@ docker compose run -it --rm -w /code/ app sops_decrypt backend.tfvars.enc.json backend.tfvars.json
 	@ docker compose run -it --rm -w /code/ app sops_decrypt secret.auto.tfvars.enc.json secret.auto.tfvars.json
 
-tf-init:
+init:
 	docker compose run -it --rm -w /code/${PROJECT_NAME} app sh -c " \
-		rm -rf .terraform \
-		&& terraform init ${TF_ARGS} \
+		test -d .terraform && rm -rf .terraform \
+		|| terraform init ${TF_ARGS} \
 	"
 
-tf-fmt:
+fmt:
 	docker compose run -it --rm -w /code/ app terraform fmt -recursive
 
-tf-plan:
+plan:
 	docker compose run -it --rm -w /code/${PROJECT_NAME} app terraform plan 
 
-tf-apply:
+apply:
 	docker compose run -it --rm -w /code/${PROJECT_NAME} app terraform apply
 
 shell:

@@ -10,4 +10,5 @@ services:
       - PGP_KEY_BASE64
     volumes:
       - $HOME/.aws/:/root/.aws/
+      - ./id_rsa:/root/.ssh/id_rsa:ro
       - .:/code
