@@ -1,5 +1,4 @@
 {
-	"secret_key": "0B5B666879BBB7A09ED39BFC3FC7FAE120DE5DC2",
 	"bucket": "ENC[AES256_GCM,data:qe71sddG6AU7UrR3hCsGrnWHuFUNhIPV+cXbKofGR3hNUeafV7McPL3gGzo2onBzrlei,iv:351QV40wu4O39qYUHx5DxnpiZD0fXySVoibSZro+WEM=,tag:j6P+zP2cmmsey0n5zOR1Eg==,type:str]",
 	"region": "ENC[AES256_GCM,data:gI2v8ZDk3ddiTynD,iv:5jmxDrYDpOqiKyJmUAFEGu4ELwJKgKVtsQviKvMJP1c=,tag:WXpcHwdSIHFP5EofNIaMJg==,type:str]",
 	"key": "ENC[AES256_GCM,data:LWyIewI8Dunr4YS7cb1qR420n+cj85fpdLozV3E0kh9W121akA==,iv:F2lHdoyEvD9eSAOTsdY8Llcm4W2/PYNxIJ3G85BD2XM=,tag:WaiXD92WL3laKB6A3vnK4g==,type:str]",
