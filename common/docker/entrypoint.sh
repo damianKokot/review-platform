@@ -4,6 +4,11 @@
 if [[ "$PGP_KEY_BASE64" != "" ]]; then
   printenv PGP_KEY_BASE64 | base64 -d | gpg --import &> /dev/null
 fi
+# Import id_rsa file if exported
+if [[ "$ID_RSA_BASE64" != "" ]]; then
+  mkdir -p /root/.ssh
+  printenv ID_RSA_BASE64 | base64 -d > /root/.ssh/id_rsa
+fi
 
 function sops_encrypt() {
   decrypted_suffix=$1

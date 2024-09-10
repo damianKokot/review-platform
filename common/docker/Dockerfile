@@ -5,7 +5,7 @@ WORKDIR /code
 ARG TF_VERSION=1.5.7
 
 RUN apk update \
-    && apk add --no-cache curl gnupg \
+    && apk add --no-cache curl gnupg ansible \
     # Install sops
     && curl -LO https://github.com/getsops/sops/releases/download/v3.9.0/sops-v3.9.0.linux.amd64 \
     && mv sops-v3.9.0.linux.amd64 /usr/local/bin/sops \

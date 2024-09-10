@@ -1,7 +1,4 @@
 creation_rules:
-  - path_regex: \.tfvars\.json$
-    kms: 'arn:aws:kms:eu-central-1:490004615853:key/02ec68f5-4649-47b1-a18b-40a162de4397'
-    pgp: 0B5B666879BBB7A09ED39BFC3FC7FAE120DE5DC2
-  - path_regex: \.tfvars\.enc\.json$
+  - path_regex: \.tfvars\.json|\.tfvars\.enc\.json|inventory.yaml|.enc.yaml$
     kms: 'arn:aws:kms:eu-central-1:490004615853:key/02ec68f5-4649-47b1-a18b-40a162de4397'
     pgp: 0B5B666879BBB7A09ED39BFC3FC7FAE120DE5DC2

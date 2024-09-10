@@ -28,4 +28,8 @@ resource "hcloud_firewall" "default" {
     port       = "any"
     source_ips = var.allowed_ips
   }
+
+  labels = merge(var.labels, {
+    module = "networking"
+  })
 }

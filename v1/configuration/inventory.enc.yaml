@@ -1,0 +1,31 @@
+all:
+    hosts:
+        master:
+            ansible_host: ENC[AES256_GCM,data:KRxPNgTBQofgMfxhUQ==,iv:6V9QRcRU8lIcH/r2oht8DUVPM1s+SLVpjqSqpnyG1SY=,tag:s8mK1mvZbVCI3OKQ1sy0dQ==,type:str]
+sops:
+    kms:
+        - arn: arn:aws:kms:eu-central-1:490004615853:key/02ec68f5-4649-47b1-a18b-40a162de4397
+          created_at: "2024-09-10T08:59:57Z"
+          enc: AQICAHiChvoxMa6W6E/qj48m67JaZYvnEaMkvl3Sbjeq2OGf8QFHs+VGm5OlHz7sU3GgjFdIAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMeB7sT98XTNjXrsvhAgEQgDumaFXvYzzTkoO2oZHGvRfeDnUP1QWh5RoPg2HmOcg6DJYSMt8TRR2AW0Zb63LlnOJ0t/zuuMSu66yRrA==
+          aws_profile: ""
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2024-09-10T08:59:57Z"
+    mac: ENC[AES256_GCM,data:lUJqgbljPBZKGF608IQ6VzSqsJC2AKo5fV8V/GaKFepYHuSkc0+XzRjfU9foR6vBBb/MolwmRsYslfZUb9ZOeSCK0+hvFqpe1pjfKT1vQNP7aDA+BmkmybjcJPxnlfICd4EZed/M0SQhmpegjNBDu1SviBkdd7i7mXnKYNX2eLs=,iv:AL7xOVEVUh1i9QoNzfv7t8j1VIbftcE8t8ROLisW9YM=,tag:1K3aTdgbqOPFUIJ05V09XA==,type:str]
+    pgp:
+        - created_at: "2024-09-10T08:59:57Z"
+          enc: |-
+            -----BEGIN PGP MESSAGE-----
+
+            hF4DYTDvXADgKm0SAQdAYaD/qRq1TKBz1mrysCNoinTSskcMs4CelRTFhnwC2DIw
+            zpqWZIA9S1IqOPPudnLMfL0EhGtb6gRUy0qQ5l25YHgfD6eMxS7IKzeL7NHVdTZy
+            1GgBCQIQhfCKtBkZOYzlwfhjzXaHFVTZ8C+Jkw0lpsANq8i/ZOYGbLNsvc93IFt0
+            BQIwOb1DE0FdlIpmNQsKXKiLhsVHgzYsYjmTScSLwgdmY7zWzJHPCUM1RySqfalt
+            VxojlMV8XOZxxA==
+            =6UpX
+            -----END PGP MESSAGE-----
+          fp: 0B5B666879BBB7A09ED39BFC3FC7FAE120DE5DC2
+    unencrypted_suffix: _unencrypted
+    version: 3.9.0

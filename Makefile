@@ -8,10 +8,12 @@ build:
 encrypt:
 	@ docker compose run -it --rm -w /code/ app sops_encrypt backend.tfvars.json backend.tfvars.enc.json
 	@ docker compose run -it --rm -w /code/ app sops_encrypt secret.auto.tfvars.json secret.auto.tfvars.enc.json
+	@ docker compose run -it --rm -w /code/ app sops_encrypt inventory.yaml inventory.enc.yaml
 
 decrypt:
 	@ docker compose run -it --rm -w /code/ app sops_decrypt backend.tfvars.enc.json backend.tfvars.json
 	@ docker compose run -it --rm -w /code/ app sops_decrypt secret.auto.tfvars.enc.json secret.auto.tfvars.json
+	@ docker compose run -it --rm -w /code/ app sops_decrypt inventory.enc.yaml inventory.yaml
 
 init:
 	docker compose run -it --rm -w /code/${PROJECT_NAME} app sh -c " \
