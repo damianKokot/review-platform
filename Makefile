@@ -32,10 +32,25 @@ plan:
 apply:
 	WORKDIR=./infrastructure ${EXEC} terraform apply
 
+destroy-server:
+	WORKDIR=./infrastructure ${EXEC} terraform destroy -target=hcloud_server.master
+
 shell:
 	${EXEC} sh
+
+playbook:
+	WORKDIR=./configuration ${EXEC} ansible-playbook -i inventory.yaml playbook.yaml
+
+fix-known-hosts:
+	$(eval HOST=$(shell ${EXEC} yq '.all.hosts.master.ansible_host' ./configuration/inventory.yaml))
+	sed '/^$(HOST)/d' ${HOME}/.ssh/known_hosts > ${HOME}/.ssh/known_hosts.old
+	mv ${HOME}/.ssh/known_hosts.old ${HOME}/.ssh/known_hosts
 
 # As for now there is only one server. Connect to it
 ssh-connect:
 	$(eval HOST=$(shell ${EXEC} yq '.all.hosts.master.ansible_host' ./configuration/inventory.yaml))
 	${EXEC} ssh -i /root/.ssh/id_rsa root@$(HOST)
+
+ssh-connect-minikube:
+	$(eval HOST=$(shell ${EXEC} yq '.all.hosts.master.ansible_host' ./configuration/inventory.yaml))
+	${EXEC} ssh -i /root/.ssh/id_rsa minikube@$(HOST)

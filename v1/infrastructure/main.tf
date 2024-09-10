@@ -58,6 +58,7 @@ resource "hcloud_server" "master" {
   }
 
   firewall_ids = [module.networking.firewall_id]
+  ssh_keys     = [hcloud_ssh_key.default.id]
 
   labels = merge(local.default_labels, {
     module = "main"
@@ -65,11 +66,11 @@ resource "hcloud_server" "master" {
 }
 
 resource "local_file" "ansible_inventory" {
-    content  = <<-EOT
+  content  = <<-EOT
       all:
         hosts:
           master:
             ansible_host: ${hcloud_server.master.ipv4_address}
     EOT
-    filename = "${path.module}/../configuration/inventory.yaml"
+  filename = "${path.module}/../configuration/inventory.yaml"
 }

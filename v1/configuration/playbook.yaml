@@ -1,0 +1,151 @@
+---
+- name: Configure Server
+  hosts: all
+  vars:
+    ansible_python_interpreter: python3
+  tasks:
+    - name: Create 'minikube' group
+      group:
+        name: minikube
+        state: present
+    - name: Add user 'minikube' without password
+      user:
+        name: minikube
+        shell: /bin/bash
+        password: "*"
+        state: present
+        groups: sudo,minikube
+        create_home: yes
+    - name: Allow 'minikube' to use sudo without password
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^minikube ALL='
+        line: 'minikube ALL=(ALL) NOPASSWD:ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Create .ssh directory for minikube
+      file:
+        path: /home/minikube/.ssh
+        state: directory
+        mode: '0700'
+        owner: minikube
+        group: minikube
+    - name: Copy authorized_keys from root to minikube
+      copy:
+        src: /root/.ssh/authorized_keys
+        dest: /home/minikube/.ssh/authorized_keys
+        owner: minikube
+        group: minikube
+        mode: '0600'
+        remote_src: yes
+    - name: Disable password-based SSH login for all users
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?PasswordAuthentication'
+        line: 'PasswordAuthentication no'
+        state: present
+    - name: Restart SSH service to apply changes
+      service:
+        name: ssh
+        state: restarted
+
+- hosts: all
+  vars:
+    ansible_python_interpreter: python3
+  tasks:
+    - name: Update apt cache and install required packages
+      apt:
+        update_cache: yes
+        name:
+          - ca-certificates
+          - curl
+        state: present
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Install Docker packages
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
+        update_cache: yes
+
+    - name: Ensure docker group exists
+      group:
+        name: docker
+        state: present
+
+    - name: Add root and minikube to docker group
+      user:
+        name: "{{ item }}"
+        groups: docker
+        append: yes
+      loop:
+        - root
+        - minikube
+
+    - name: Enable Docker and containerd services
+      systemd:
+        name: "{{ item }}"
+        enabled: yes
+      loop:
+        - docker
+        - containerd
+
+    - name: Download kubectl
+      get_url:
+        url: "https://dl.k8s.io/release/v1.31.0/bin/linux/amd64/kubectl"
+        dest: /usr/local/bin/kubectl
+        mode: '0755'
+
+    - name: Verify kubectl installation
+      command: kubectl version --client
+      register: kubectl_version
+
+    - name: Output kubectl version
+      debug:
+        var: kubectl_version
+
+    - name: Add alias for kubectl for root
+      lineinfile:
+        path: /root/.bash_aliases
+        line: "alias k=kubectl"
+        create: yes
+
+    - name: Add alias for kubectl for minikube
+      lineinfile:
+        path: /home/minikube/.bash_aliases
+        line: "alias k=kubectl"
+        create: yes
+
+    - name: Download Minikube
+      get_url:
+        url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        dest: /usr/local/bin/minikube
+        mode: '0755'
+
+    - name: Verify Minikube installation
+      command: minikube version
+      register: minikube_version
+
+    - name: Output minikube version
+      debug:
+        var: minikube_version
+
+    - name: Reboot the server
+      reboot:
+        msg: "Rebooting after installing Docker, kubectl, and Minikube"
+        pre_reboot_delay: 5
