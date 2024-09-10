@@ -11,4 +11,6 @@ services:
       - ID_RSA_BASE64
     volumes:
       - $HOME/.aws/:/root/.aws/
+      - $HOME/.ssh/known_hosts:/root/.ssh/known_hosts
+      - $HOME/.ssh/known_hosts.old:/root/.ssh/known_hosts.old
       - .:/code

@@ -8,6 +8,7 @@ fi
 if [[ "$ID_RSA_BASE64" != "" ]]; then
   mkdir -p /root/.ssh
   printenv ID_RSA_BASE64 | base64 -d > /root/.ssh/id_rsa
+  chmod 400 /root/.ssh/id_rsa
 fi
 
 function sops_encrypt() {
@@ -24,4 +25,5 @@ function sops_decrypt() {
   find . -regex ".*/$encrypted_suffix$" -exec sh -c "sops decrypt {} > \$(echo {} | sed 's/$encrypted_suffix/$decrypted_suffix/g')" \; && echo "OK"
 }
 
-eval $@
+[[ "$WORKDIR" != "" ]] && cd $WORKDIR
+exec "$@"
